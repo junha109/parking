@@ -32,7 +32,7 @@ plt.rcParams['xtick.labelsize'] = 35
 plt.rcParams['ytick.labelsize'] = 35     
 
 # ==============================================================================
-# [함수] 보조 함수
+# 보조 함수
 # ==============================================================================
 def create_directory(path):
     if not os.path.exists(path):
@@ -68,7 +68,7 @@ def set_xlim_dynamic(ax, week_start_date, data_max_time):
     ax.set_xlim(week_start_date, final_end)
 
 # ==============================================================================
-# [함수] Plotting 
+# Plotting 
 # ==============================================================================
 def plot_temp_correlation(df, save_path, file_name, avg_ext, avg_mod, car_model, term_id):
     if df.empty: return
@@ -203,14 +203,14 @@ def main():
     try:
         from GS_vehicle_dict import vehicle_dict
     except ImportError:
-        print(" [오류] GS_vehicle_dict.py 파일을 찾을 수 없습니다.")
+        print(" GS_vehicle_dict.py 파일을 찾을 수 없음")
         exit()
 
-    print(f"총 {len(TARGET_TERMINAL_LIST)}개의 단말기에 대해 시각화를 시작합니다.")
+    print(f"총 {len(TARGET_TERMINAL_LIST)}개 시각화 시작")
 
     for current_terminal_id in TARGET_TERMINAL_LIST:
         print("\n" + "="*60)
-        print(f"▶ 처리 시작: {current_terminal_id}")
+        print(f"처리 시작: {current_terminal_id}")
         print("="*60)
 
         found_car_model = None
@@ -220,12 +220,12 @@ def main():
                 break
         
         if not found_car_model:
-            print(f" [Skip] 단말기 번호({current_terminal_id})를 vehicle_dict에서 찾을 수 없습니다.")
+            print(f" 단말기 번호({current_terminal_id})를 vehicle_dict에서 찾을 수 없음")
             continue
 
         terminal_path = os.path.join(ROOT_DIR, found_car_model, current_terminal_id)
         if not os.path.exists(terminal_path):
-            print(f" [Skip] 데이터 폴더 없음: {terminal_path}")
+            print(f" 데이터 폴더 없음: {terminal_path}")
             continue
 
         files_by_week = defaultdict(list)
@@ -237,7 +237,7 @@ def main():
             all_files.extend(csvs)
 
         if not all_files:
-            print(" [Skip] CSV 파일 없음")
+            print(" CSV 파일 없음")
             continue
 
         print(f" - 총 {len(all_files):,}개 파일 분류 중...")
@@ -310,8 +310,9 @@ def main():
                 pass
 
     print("\n" + "="*60)
-    print("모든 단말기 처리 완료!")
+    print("처리 완료")
     print("="*60)
 
 if __name__ == "__main__":
+
     main()
