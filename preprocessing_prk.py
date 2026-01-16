@@ -40,7 +40,7 @@ def process_file_logic(file_info):
     file_path, vehicle_type, device_id, output_root = file_info
     
     try:
-        # 1. 파일 읽기
+        # 파일 읽기
         try: df = pd.read_csv(file_path, encoding='utf-8')
         except: 
             try: df = pd.read_csv(file_path, encoding='cp949')
@@ -62,7 +62,7 @@ def process_file_logic(file_info):
 
         df = df.dropna(subset=['speed'])
         
-        # 3. 시간 변환
+        # 시간 변환
         if 'time' in df.columns:
             df['time'] = pd.to_datetime(df['time'], errors='coerce')
             df = df.dropna(subset=['time'])
@@ -70,17 +70,17 @@ def process_file_logic(file_info):
             if df.empty: return 0
         else: return 0 
 
-        # 4. 년월 추출
+        # 년월 추출
         try:
             year_month = df['time'].iloc[len(df)//2].strftime('%Y%m')
         except:
             year_month = "Unknown_Date"
 
-        # 5. 모듈 온도
+        # 모듈 온도
         if 'mod_temp_list' in df.columns:
             df['mod_avg_temp'] = df['mod_temp_list'].apply(calculate_avg_temp)
 
-        # 6. 주차 판단 로직 
+        # 주차 판단 로직 
         speed_cond = (df['speed'] == 0)
         
         if current_col:
@@ -91,7 +91,7 @@ def process_file_logic(file_info):
         df['is_parking'] = speed_cond & current_cond
         df['group_id'] = (df['is_parking'] != df['is_parking'].shift()).cumsum()
 
-        # 7. 저장
+        # 저장
         save_dir = os.path.join(output_root, vehicle_type, device_id, year_month)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir, exist_ok=True)
@@ -132,7 +132,7 @@ def sort_and_rename_files(target_root):
             target_dirs.append(root)
     
     if not target_dirs:
-        print(" -> 정리할 파일이 없습니다.")
+        print(" -> 정리할 파일이 없음음")
         return
 
     for folder in tqdm(target_dirs, desc="Finalizing"):
@@ -170,10 +170,10 @@ def sort_and_rename_files(target_root):
 # 실행 함수
 # ================================================================================
 def main():
-    print(f"\n데이터 기반 주차 세그먼트 추출 (파일명 중복 방지 Ver)")
+    print(f"\n주차 세그먼트 추출")
     
     target_files = []
-    print("\n[1단계] 파일 탐색 중...")
+    print("\n파일 탐색 중...")
     
     for root, dirs, files in os.walk(RAW_DATA_FOLDER):
         vehicle_type = os.path.basename(root)
@@ -192,11 +192,11 @@ def main():
                 target_files.append((os.path.join(root, f), vehicle_type, device_id, PARKING_OUTPUT_FOLDER))
 
     if not target_files:
-        print(" 처리할 파일이 없습니다.")
+        print(" 처리할 파일이 없음")
         return
 
     max_workers = max(1, os.cpu_count() - 2)
-    print(f"\n[2단계] 데이터 처리 시작 (Workers: {max_workers})")
+    print(f"\n데이터 처리 시작 (Workers: {max_workers})")
 
     total_segments = 0
     with tqdm(total=len(target_files), desc="Processing") as pbar:
@@ -209,7 +209,8 @@ def main():
                 finally: pbar.update(1)
 
     sort_and_rename_files(PARKING_OUTPUT_FOLDER)
-    print(f"\n 총 {total_segments:,}개의 파일 생성 완료!")
+    print(f"\n 총 {total_segments:,}개의 파일 생성")
 
 if __name__ == '__main__':
+
     main()
