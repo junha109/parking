@@ -23,7 +23,7 @@ try:
     font_name = fm.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)
 except:
-    print("맑은 고딕 폰트를 찾을 수 없어 기본 폰트를 사용합니다.")
+    print("맑은 고딕 폰트를 찾을 수 없어 기본 폰트 사용")
 
 plt.rc('axes', unicode_minus=False)
 
@@ -40,7 +40,7 @@ plt.rc('legend', fontsize=35)
 try:
     from GS_vehicle_dict import vehicle_dict
 except ImportError:
-    print("Warning: GS_vehicle_dict.py를 찾을 수 없습니다. 차종 정보 없이 진행합니다.")
+    print("GS_vehicle_dict.py를 찾을 수 없음")
     vehicle_dict = {}
 
 
@@ -96,7 +96,7 @@ def plot_final_visualization(df, car_model, terminal_id):
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-    print("그래프 그리는 중... (잠시만 기다려주세요)")
+    print("그래프 그리는 중...")
 
     total_corr = df['ext_temp'].corr(df['mod_avg_temp'])
     total_n = len(df)
@@ -154,4 +154,5 @@ if __name__ == "__main__":
     if not df_res.empty:
         plot_final_visualization(df_res, target_car, TARGET_TERMINAL_ID)
     else:
+
         print("데이터가 없습니다.")
