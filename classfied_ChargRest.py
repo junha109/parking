@@ -8,8 +8,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 # 경고 메시지 숨김
 warnings.filterwarnings('ignore')
 
-# ================================================================================
-# [설정 영역]
+
 # ================================================================================
 INPUT_ROOT_DIR = r'Z:\SamsungSTF\Processed_Data\Parking\segment'
 OUTPUT_ROOT_DIR = r'Z:\SamsungSTF\Processed_Data\Parking\classified'
@@ -72,8 +71,7 @@ def process_single_file(file_path):
     except Exception:
         return 0
 
-# ================================================================================
-# 메인 실행 함수
+
 # ================================================================================
 def main():
     print(f" 입력: {INPUT_ROOT_DIR}")
@@ -106,9 +104,9 @@ def main():
             success_count += future.result()
 
     print("-" * 50)
-    print(f" 작업 완료")
-    print(f"   - 성공: {success_count:,}개")  
+    print(f" {success_count:,}개 작업 완료")
     print(f"   - 실패: {total_files - success_count:,}개")
 
 if __name__ == "__main__":
+
     main()
