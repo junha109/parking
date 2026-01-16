@@ -86,7 +86,7 @@ def main():
         os.makedirs(OUTPUT_DIR)
 
     result_data = []
-    print("📊 상관관계 분석 시작 (CSV 통합 저장)...")
+    print(" 상관관계 분석 시작...")
 
     # 시즌 정의
     seasons = {
@@ -122,7 +122,7 @@ def main():
 
             full_df['month'] = full_df['time'].dt.month
 
-            # [1] 전체 기간 상관관계
+            # 전체 기간 상관관계
             total_corr = full_df['ext_temp'].corr(full_df['mod_avg_temp'])
             total_count = len(full_df)
             
@@ -133,7 +133,7 @@ def main():
                 'Total_Count': total_count
             }
 
-            # [2] 시즌별 상관관계
+            # 시즌별 상관관계
             for season_name, months in seasons.items():
                 season_df = full_df[full_df['month'].isin(months)]
                 count_val = len(season_df)
@@ -171,7 +171,7 @@ def main():
         detail_df = detail_df[final_cols]
 
         print("-" * 50)
-        print("차종별 가중 평균 계산 중...")
+        print("차종별 가중 평균 계산...")
         
         summary_df = detail_df.groupby('Car_Model').apply(calculate_weighted_avg).reset_index()
         
@@ -188,13 +188,12 @@ def main():
         final_df.to_csv(save_path, index=False, encoding='utf-8-sig')
         
         print("\n" + "="*50)
-        print(" 분석 완료!")
-        print(f"결과 저장: {save_path}")
         print("="*50)
         print(summary_df[['Car_Model', 'Terminal_ID', 'Total_Corr', 'Total_Count']])
 
     else:
-        print("\n 처리된 데이터가 없습니다.")
+        print("\n 데이터가 없음")
 
 if __name__ == "__main__":
+
     main()
