@@ -47,11 +47,11 @@ try:
         print(f" 매칭된 차종: {found_car_model}")
         TEST_CAR_MODEL = found_car_model
     else:
-        print(f" 오류: 딕셔너리에서 단말기 번호({TARGET_TERMINAL_ID})를 찾을 수 없습니다.")
+        print(f" 단말기 번호를 찾을 수 없음")
         exit()
 
 except ImportError:
-    print(" [오류] GS_vehicle_dict.py 파일을 찾을 수 없습니다.")
+    print(" GS_vehicle_dict.py 파일을 찾을 수 없음음")
     exit()
 
 # ==============================================================================
@@ -173,7 +173,7 @@ def plot_time_combined(df, save_path, file_name, week_start, avg_ext, avg_mod):
     for a in ax:
         set_xlim_dynamic(a, week_start, data_max_time)
 
-    # [수정] 타이틀 변경: 차종 - 단말기번호
+    # 타이틀 : 차종 - 단말기번호
     title_str = f"{TEST_CAR_MODEL} - {TARGET_TERMINAL_ID}\n({file_name})"
     ax[0].set_title(title_str, pad=30)
 
@@ -220,17 +220,17 @@ def plot_time_combined(df, save_path, file_name, week_start, avg_ext, avg_mod):
     plt.close(fig)
 
 # ==============================================================================
-# [메인 실행 로직]
+# 메인 실행 
 # ==============================================================================
 def main():
     print(f"\n Start Processing (Title Changed): {TEST_CAR_MODEL} - {TARGET_TERMINAL_ID}")
     
     terminal_path = os.path.join(ROOT_DIR, TEST_CAR_MODEL, TARGET_TERMINAL_ID)
     if not os.path.exists(terminal_path):
-        print(f" [오류] 경로가 존재하지 않습니다.")
+        print(f" 경로가 존재하지 않음음")
         return
 
-    # 1. 파일 스캔 및 '주(Week)'별 분류
+    # 파일 스캔 및 '주'별 분류
     files_by_week = defaultdict(list)
     all_files = []
     month_folders = sorted([d for d in os.listdir(terminal_path) if d.isdigit() and len(d)==6])
@@ -240,10 +240,10 @@ def main():
         all_files.extend(csvs)
 
     if not all_files:
-        print(" [오류] 처리할 파일이 없습니다.")
+        print(" 처리할 파일이 없음")
         return
 
-    print(f" 총 {len(all_files):,}개의 세그먼트 파일을 스캔하여 주(Week)별로 분류합니다...")
+    print(f" 총 {len(all_files):,}개의 세그먼트 파일을 감지하여 주별로 분류")
     
     for f_path in tqdm(all_files, desc="Grouping Files"):
         try:
@@ -258,7 +258,7 @@ def main():
         except:
             continue
 
-    # 2. 주별 시각화
+    # 주별 시각화
     sorted_weeks = sorted(files_by_week.keys())
     
     base_save_path = os.path.join(OUTPUT_DIR, TEST_CAR_MODEL, TARGET_TERMINAL_ID)
@@ -268,7 +268,7 @@ def main():
     create_directory(dir_1); create_directory(dir_2); create_directory(dir_3)
     
     print(f" 결과 저장 경로: {base_save_path}")
-    print(f" 총 {len(sorted_weeks)}주(Week)의 데이터를 시각화합니다.")
+    print(f" 총 {len(sorted_weeks)}주의 데이터를 시각화")
 
     use_cols = ['time', 'ext_temp', 'mod_avg_temp', 'pack_current', 'pack_volt', 'soc']
 
@@ -311,7 +311,8 @@ def main():
         except Exception as e:
             print(f" Error plotting {file_name}: {e}")
 
-    print("\n 작업 완료!")
+    print("\n 작업 완료")
 
 if __name__ == "__main__":
+
     main()
