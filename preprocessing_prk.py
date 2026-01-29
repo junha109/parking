@@ -6,7 +6,6 @@ import glob
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
-# 경고 메시지 숨김
 warnings.filterwarnings('ignore')
 
 # ================================================================================
@@ -37,8 +36,7 @@ def get_start_time(file_path):
     except:
         return pd.Timestamp.max
 
-# ================================================================================
-# 핵심 로직 함수
+
 # ================================================================================
 def process_file_logic(file_info):
     file_path, vehicle_type, device_id, output_root = file_info
@@ -201,4 +199,5 @@ def main():
     print(f"\n 작업 완료. 총 {total_segments:,}개")
 
 if __name__ == '__main__':
+
     main()
