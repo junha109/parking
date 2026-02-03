@@ -25,3 +25,7 @@ deviation.py : 단말기별로 0도를 제외한 배터리 모듈 온도 간의 
 faulty_file.py : CSV에 명시된 불량 데이터 파일들을 일괄 삭제
 
 filttering_ext_outlier.py : 외기 온도(ext_temp)가 모두 0인 이상치 파일을 탐색하고 단말기별 불량률 통계 생성
+
+BMS_Weather_save : ext_temp와 기온을 세그먼트 파일별로 시간가중평균 계산 후 기록 + temp_diff(ext_temp-weather)기록
+
+Clustering_Fianl : BMS_Weather_save 실행 후 output으로 클러스터링 (K 여러개 동시 실행 가능) + 결과 plot (scatter[ext vs Weather], box plot[temp_diff]) + 세그먼트가 속한 클러스터 기록
