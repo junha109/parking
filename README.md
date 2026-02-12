@@ -44,3 +44,9 @@ BMS_Weather_save
 
 Clustering_Fianl 
 : BMS_Weather_save 실행 후 output으로 클러스터링 (K 여러개 동시 실행 가능) + 결과 plot (scatter[ext vs Weather], box plot[temp_diff]) + 세그먼트가 속한 클러스터 기록
+
+Clustering_monthly
+: 월별로 실내/외 주차 유저로 클러스터링 
+
+Usre_Categorization
+: Clustering 후 유저가 속하고 있는 클러스터의 수를 기반으로 실내/실외/애매 주차 유저인지 판단
