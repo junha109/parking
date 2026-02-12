@@ -32,7 +32,6 @@ def main():
     df['device_id'] = df['file_name'].astype(str).str[:11]
     
     # 월(Month) 정보 추출 (YYYY-MM 형식)
-    # 'time' 컬럼이 있는 경우 이를 활용하고, 없는 경우 파일명에서 추출을 시도합니다.
     if 'time' in df.columns:
         df['month'] = pd.to_datetime(df['time']).dt.strftime('%Y-%m')
     else:
@@ -51,7 +50,7 @@ def main():
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(df_clean[features])
 
-    print("K=5 클러스터링 수행 중...")
+    print("K=5 클러스터링 수행 중")
     kmeans = KMeans(n_clusters=5, random_state=42, n_init=10)
     df_clean['cluster_k5'] = kmeans.fit_predict(X_scaled)
 
@@ -90,21 +89,19 @@ def main():
 # Scatter Plot (Cluster 분포 확인)
     plt.figure(figsize=(12, 10))
     
-    # 1. 그래프를 변수 'ax'에 할당합니다.
+    # 그래프를 변수 'ax'에 할당합니다.
     ax = sns.scatterplot(data=df_clean, x='weather_temp_avg', y='ext_temp_avg', 
                         hue='cluster_k5', palette='viridis', alpha=0.4, s=10)
     
-    # 2. 생성된 범례(legend)를 직접 제거합니다.
+    # 생성된 범례(legend)를 직접 제거합니다.
     if ax.legend_ is not None:
         ax.legend_.remove()
     
-    # === 글씨 크기 조절 코드 (기존 동일) ===
+    # === 글씨 크기 조절 코드 ===
     plt.xlabel('Weather Average Temperature (℃)', fontsize=25)
     plt.ylabel('BMS External Temperature Average (℃)', fontsize=25)
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-
-    # === 글씨 크기 조절 코드 추가 끝 ===
 
     # 1:1 Reference Line
     min_val, max_val = df_clean['weather_temp_avg'].min(), df_clean['weather_temp_avg'].max()
@@ -124,4 +121,5 @@ def main():
     print("="*60)
 
 if __name__ == "__main__":
+
     main()
